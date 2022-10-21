@@ -38,7 +38,6 @@ function App() {
         setSelectedCounter(prevCounter => prevCounter + 1)
       }
     }
-    console.log(selectedCounter)
   }
 
   useEffect(choosenCounter, [data])
@@ -53,6 +52,15 @@ function App() {
       )
       return tempData
     })
+
+    for (let i = 0; i < data.length; i++) {
+      for (let j = 0; j < data[i].options.length; j++) {
+        if (data[i].options[j].isHeld === true &&
+          data[i].options[j].isCorrect === true) {
+          setCorrect(prevCorect => prevCorect + 1)
+        }
+      }
+    }
     setIsChecked(true)
   }
 
@@ -68,9 +76,13 @@ function App() {
       options={element.options}
       handleChoose={handleChoose}
       isChoosen={element.isChoosen}
+      isChecked={element.isChecked}
     />
   )
 
+  function resetQuiz() {
+    
+  }
 
   return (
     !start ?
@@ -90,10 +102,21 @@ function App() {
           <div className="check-container">
             {selectedCounter < 5 ?
               <div className="counter">Remaning answers: {5 - selectedCounter}</div>
-              : null
+              :
+              null
             }
-            {selectedCounter === 5 ?
-              <button onClick={handleCheck}>Check your answers</button> : null}
+            {selectedCounter === 5 && !isChecked ?
+              <button onClick={handleCheck}>Check your answers</button>
+              :
+              null
+            }
+            {isChecked ?
+              <div>
+                <div>Your score: {correct} </div>
+                <button onClick={() => resetQuiz()}>Start new quiz!</button>
+              </div>
+              :
+              null}
           </div>
         </div>
         :

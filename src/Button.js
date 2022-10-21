@@ -28,7 +28,7 @@ function Button(props) {
 
     return (
         <button
-            onClick={() => props.handleChoose(props.idQuestion, props.idAnswer)}
+            onClick={!props.isChecked ? () => props.handleChoose(props.idQuestion, props.idAnswer): null}
             style={style}
         >
             {decode(props.value)}
