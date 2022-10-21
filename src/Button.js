@@ -2,12 +2,33 @@ import React from "react";
 import { decode } from "html-entities"
 
 function Button(props) {
-    const style = {
-        // backgroundColor: props.isHeld ? "yellow" : "white"
+    let style = {}
+
+    function styler() {
+        if (props.isHeld) {
+            style = {
+                backgroundColor: "yellow"
+            }
+        }
+
+        if (props.isChecked && props.isHeld && props.isCorrect) {
+            style = {
+                backgroundColor: "green"
+            }
+        }
+
+        if (props.isChecked && props.isHeld && !props.isCorrect) {
+            style = {
+                backgroundColor: "red"
+            }
+        }
     }
+
+    styler()
+
     return (
         <button
-            onClick={() => props.handleChoose(props.idQuestion,props.idAnswer)}
+            onClick={() => props.handleChoose(props.idQuestion, props.idAnswer)}
             style={style}
         >
             {decode(props.value)}

@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import Button from "./Button";
 import { decode } from "html-entities"
 import { nanoid } from "nanoid"
@@ -15,6 +14,7 @@ function Question(props) {
             handleChoose={props.handleChoose}
             isCorrect={element.isCorrect}
             isHeld={element.isHeld}
+            isChecked={element.isChecked}
         />
     )
 

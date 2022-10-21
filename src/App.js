@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react"
 import handleData from "./handleData";
 import Question from "./Question";
-import {nanoid} from "nanoid"
+import { nanoid } from "nanoid"
 
 function App() {
   const [data, setData] = useState([])
@@ -16,28 +16,38 @@ function App() {
       });
   }, [])
 
-  console.log(data)
-
   function handleChoose(idQuestion, idAnswer) {
     setData(prevData => {
-      let tempData = prevData
-      tempData[idQuestion].options[idAnswer].isHeld =
-      !tempData[idQuestion].options[idAnswer].isHeld
+      let tempData = [].concat(prevData)
+      tempData[idQuestion].options.map(answer => {
+        return answer.isHeld = false
+      })
+      tempData[idQuestion].options[idAnswer].isHeld = true
       return tempData
     })
   }
-  // żeby naciskało się tylko jedno - po naciśnięciu czyścimy isHeld w całym Question i na koniec zaznaczamy tylko to jedno
-  // żeby sprawdzić odpowiedzi to sprawdzamy czy w danym question isHeld = isCorrect i wg tego oznaczamy kolory
 
-  const questionsElements = data.map((element,index) =>
-    <Question 
-    key={nanoid()}
-    id={index}
-    question={element.question}
-    options={element.options}
-    handleChoose={handleChoose}
+  function handleCheck() {
+    setData(prevData => {
+      let tempData = [].concat(prevData)
+      tempData.map(element => 
+        element.options.map(answer => {
+          return answer.isChecked = true
+        })
+        )
+        return tempData
+    })
+  }
+
+  const questionsElements = data.map((element, index) =>
+    <Question
+      key={nanoid()}
+      id={index}
+      question={element.question}
+      options={element.options}
+      handleChoose={handleChoose}
     />
-    )
+  )
 
 
   return (
@@ -47,7 +57,7 @@ function App() {
         {questionsElements}
       </div>
       <div className="check-container">
-        <button>Check your answers</button>
+        <button onClick={handleCheck}>Check your answers</button>
       </div>
     </div>
   );

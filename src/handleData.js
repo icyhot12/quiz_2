@@ -22,7 +22,7 @@ function handleData(data) {
             id:nanoid(),
             question:element,
             correctAnswer: correctAnswers[index],
-            options: setOptions(fullAnswers[index], correctAnswers[index])
+            options: setOptions(mixedAnswers[index],correctAnswers[index])
         }))
 
     function setOptions(allAnswers,correctAnswer) {
@@ -31,7 +31,7 @@ function handleData(data) {
                 id:nanoid(),
                 value: element,
                 isHeld: false,
-                isHeldCorrect: false,
+                isChecked: false,
                 isCorrect: element === correctAnswer ? true : false,
             }
         })
