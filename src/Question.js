@@ -1,13 +1,12 @@
 import React from "react";
 import Button from "./Button";
 import { decode } from "html-entities"
-import { nanoid } from "nanoid"
 
 function Question(props) {
 
     const buttons = props.options.map((element,index) =>
         <Button
-            key={nanoid()}
+            key={`${props.id}${index}`}
             idAnswer={index}
             idQuestion={props.id}
             value={element.value}

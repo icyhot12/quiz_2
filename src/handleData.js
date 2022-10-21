@@ -22,7 +22,8 @@ function handleData(data) {
             id:nanoid(),
             question:element,
             correctAnswer: correctAnswers[index],
-            options: setOptions(mixedAnswers[index],correctAnswers[index])
+            options: setOptions(mixedAnswers[index],correctAnswers[index]),
+            isChoosen: false
         }))
 
     function setOptions(allAnswers,correctAnswer) {
