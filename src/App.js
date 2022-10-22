@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react"
 import handleData from "./handleData";
 import Question from "./Question";
+import Form from "./Form";
 
 function App() {
   const [start, setStart] = useState(false)
@@ -10,15 +11,22 @@ function App() {
   const [correct, setCorrect] = useState(0)
   const [isChecked, setIsChecked] = useState(false)
   const [isReset, setIsReset] = useState(false)
+  const [apiChoice, setApiChoice] = useState("")
 
-  useEffect(() => {
-    fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
+  function handleApi(choices) {
+    let url = `https://opentdb.com/api.php?amount=${choices.questionNumber}${choices.questionCategory === "any" ? "" : `&category=${choices.questionCategory}`}${choices.questionDif === "any" ? "" : `&difficulty=${choices.questionDif}`}&type=multiple`
+    
+    setApiChoice(url)
+  }
+
+  function getApi() {
+    fetch(apiChoice)
       .then((response) => response.json())
       .then((data) => {
         const constructedData = handleData(data.results)
         setData(constructedData)
       });
-  }, [isReset])
+  }
 
   function handleChoose(idQuestion, idAnswer) {
     setData(prevData => {
@@ -66,6 +74,7 @@ function App() {
   }
 
   function startQuiz() {
+    getApi()
     setStart(prevStart => !prevStart)
   }
 
@@ -82,6 +91,7 @@ function App() {
   )
 
   function resetQuiz() {
+    setData([])
     setIsReset(prevReset => !prevReset)
     setStart(false)
     setSelectedCounter(0)
@@ -93,6 +103,7 @@ function App() {
     !start ?
       <div className="start-container">
         <div className="start-tile">Welcome in Quiz Game</div>
+        <Form handleApi={handleApi} />
         <div className="start-button">
           <button onClick={() => startQuiz()}>Start quiz!</button>
         </div>
@@ -105,12 +116,12 @@ function App() {
             {questionsElements}
           </div>
           <div className="check-container">
-            {selectedCounter < 5 ?
-              <div className="counter">Remaning answers: {5 - selectedCounter}</div>
+            {selectedCounter < data.length ?
+              <div className="counter">Remaning answers: {data.length - selectedCounter}</div>
               :
               null
             }
-            {selectedCounter === 5 && !isChecked ?
+            {selectedCounter === data.length && !isChecked ?
               <button onClick={handleCheck}>Check your answers</button>
               :
               null
