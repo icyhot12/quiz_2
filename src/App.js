@@ -9,6 +9,7 @@ function App() {
   const [selectedCounter, setSelectedCounter] = useState(0)
   const [correct, setCorrect] = useState(0)
   const [isChecked, setIsChecked] = useState(false)
+  const [isReset, setIsReset] = useState(false)
 
   useEffect(() => {
     fetch('https://opentdb.com/api.php?amount=5&difficulty=easy&type=multiple')
@@ -17,7 +18,7 @@ function App() {
         const constructedData = handleData(data.results)
         setData(constructedData)
       });
-  }, [])
+  }, [isReset])
 
   function handleChoose(idQuestion, idAnswer) {
     setData(prevData => {
@@ -81,7 +82,11 @@ function App() {
   )
 
   function resetQuiz() {
-    
+    setIsReset(prevReset => !prevReset)
+    setStart(false)
+    setSelectedCounter(0)
+    setCorrect(0)
+    setIsChecked(false)
   }
 
   return (
