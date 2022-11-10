@@ -7,19 +7,19 @@ function Button(props) {
     function styler() {
         if (props.isHeld) {
             style = {
-                backgroundColor: "yellow"
+                backgroundColor: "#2982ff"
             }
         }
 
         if (props.isChecked && props.isHeld && props.isCorrect) {
             style = {
-                backgroundColor: "green"
+                backgroundColor: "#218838"
             }
         }
 
         if (props.isChecked && props.isHeld && !props.isCorrect) {
             style = {
-                backgroundColor: "red"
+                backgroundColor: "#c82333"
             }
         }
     }

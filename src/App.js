@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import handleData from "./handleData";
 import Question from "./Question";
 import Form from "./Form";
+import bkgImage from "./images/quiz_medium.jpg"
 
 function App() {
   const [start, setStart] = useState(false)
@@ -15,7 +16,7 @@ function App() {
 
   function handleApi(choices) {
     let url = `https://opentdb.com/api.php?amount=${choices.questionNumber}${choices.questionCategory === "any" ? "" : `&category=${choices.questionCategory}`}${choices.questionDif === "any" ? "" : `&difficulty=${choices.questionDif}`}&type=multiple`
-    
+
     setApiChoice(url)
   }
 
@@ -101,38 +102,42 @@ function App() {
 
   return (
     !start ?
-      <div className="start-container">
-        <div className="start-tile">Welcome in Quiz Game</div>
-        <Form handleApi={handleApi} />
-        <div className="start-button">
-          <button onClick={() => startQuiz()}>Start quiz!</button>
+      <div className="start-bkg" style={{ backgroundImage: `url(${bkgImage})` }}>
+        <div className="start-container">
+          <div className="start-tile">Welcome in Quiz Game</div>
+          <Form handleApi={handleApi} />
+          <div className="start-button">
+            <button onClick={() => startQuiz()}>Start quiz!</button>
+          </div>
         </div>
       </div>
       :
       data.length > 1 ?
-        <div className="main-container">
-          <div className="title">Quiz</div>
-          <div className="questions-container">
-            {questionsElements}
-          </div>
-          <div className="check-container">
-            {selectedCounter < data.length ?
-              <div className="counter">Remaning answers: {data.length - selectedCounter}</div>
-              :
-              null
-            }
-            {selectedCounter === data.length && !isChecked ?
-              <button onClick={handleCheck}>Check your answers</button>
-              :
-              null
-            }
-            {isChecked ?
-              <div>
-                <div>Your score: {correct} </div>
-                <button onClick={() => resetQuiz()}>Start new quiz!</button>
-              </div>
-              :
-              null}
+        <div className="start-bkg" style={{ backgroundImage: `url(${bkgImage})` }} >
+          <div className="main-container">
+            <div className="title">Quiz</div>
+            <div className="questions-container">
+              {questionsElements}
+            </div>
+            <div className="check-container">
+              {selectedCounter < data.length ?
+                <div className="counter">Remaning answers: {data.length - selectedCounter}</div>
+                :
+                null
+              }
+              {selectedCounter === data.length && !isChecked ?
+                <button onClick={handleCheck}>Check your answers</button>
+                :
+                null
+              }
+              {isChecked ?
+                <div>
+                  <div>Your score: {correct} </div>
+                  <button onClick={() => resetQuiz()}>Start new quiz!</button>
+                </div>
+                :
+                null}
+            </div>
           </div>
         </div>
         :
